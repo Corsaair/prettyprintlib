@@ -1,0 +1,37 @@
+#!/usr/bin/as3shebang -- 
+
+import shell.*;
+
+var ansilib:* = Domain.currentDomain.load( "lib-abc/ansilib.abc" );
+trace( ansilib + " loaded" );
+
+var prettyprintlib:* = Domain.currentDomain.load( "prettyprintlib.abc" );
+trace( prettyprintlib + " loaded" );
+
+import libraries.prettyprint.*;
+
+trace( "" );
+
+/* Note:
+   The general usage is
+   - to have as3shebang installed
+   - be in the root directory of the project
+   - to run redbean in this directory
+     it will build "prettyprintlib.abc"
+   - and the nrun the test
+     eg. $ ./test_prettyprint1
+
+   alternative: if you are under windows
+   - install redshell
+   - remove the shebang line
+     eg. #!/usr/bin/as3shebang -- 
+   - and run the test with redshell
+     eg. $ ./redshell test_prettyprint1
+*/
+
+/* Print a simple "hello world"
+*/
+var printer = new TracePrinter();
+    printer.println( "hello world" );
+
+

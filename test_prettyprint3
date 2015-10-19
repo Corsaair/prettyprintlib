@@ -1,0 +1,29 @@
+#!/usr/bin/as3shebang -- 
+
+import shell.*;
+
+var ansilib:* = Domain.currentDomain.load( "lib-abc/ansilib.abc" );
+trace( ansilib + " loaded" );
+
+var prettyprintlib:* = Domain.currentDomain.load( "prettyprintlib.abc" );
+trace( prettyprintlib + " loaded" );
+
+import libraries.prettyprint.*;
+
+trace( "" );
+
+/* Print, indent/unindent and use ANSI colors.
+*/
+var printer = new TracePrinter();
+var printer2 = new IndentingPrinter( printer, 0, 4 );
+var pink = new AnsiPrinter( printer2, "「M! 」" );
+var blue = new AnsiPrinter( printer2, "「B! 」" );
+var comment = new CommentPrinter( pink );
+
+
+printer2.indent();
+printer2.indent();
+comment.println( "hello world I'm a comment" );
+blue.println( "Hey here some blue text" );
+printer2.println( "and some normal text" );
+blue.println( "and some blue text again" );

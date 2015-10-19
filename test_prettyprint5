@@ -1,0 +1,114 @@
+#!/usr/bin/as3shebang -- 
+
+import shell.*;
+
+var ansilib:* = Domain.currentDomain.load( "lib-abc/ansilib.abc" );
+trace( ansilib + " loaded" );
+
+var prettyprintlib:* = Domain.currentDomain.load( "prettyprintlib.abc" );
+trace( prettyprintlib + " loaded" );
+
+import libraries.prettyprint.*;
+import flash.utils.ByteArray;
+
+trace( "" );
+
+
+// read a binary file to get some bytes
+var bytes = FileSystem.readByteArray( "prettyprintlib.abc" );
+
+// we want only the first 200 bytes
+var sample = new ByteArray();
+    sample.writeBytes( bytes, 0, 200 );
+
+/* a bytes table have minaly 3 params
+   - the length of the hex (which must be a mulitple of 2)
+     can be 2, 4, 6, 8
+   - the number of columns
+   - the padding
+*/
+var btable1 = new BytesTableAnsiPrinter( 8, 8, 1 );
+var btable2 = new BytesTableAnsiPrinter( 8, 8, 1 );
+var btable3 = new BytesTableAnsiPrinter( 8, 8, 0 );
+var btable4 = new BytesTableAnsiPrinter( 8, 4, 2 );
+var btable5 = new BytesTableAnsiPrinter( 8, 4, 0 );
+var btable6 = new BytesTableAnsiPrinter( 8, 4, 0 );
+
+var printer = new TracePrinter();
+var uprinter = new AnsiPrinter( printer, "「K! 」" );
+var aprinter = new AnsiPrinter( printer );
+
+/* print bytes in a table of 8 columns
+   with padding of 1, no color
+*/
+    btable1.addBytes( sample );
+    btable1.print( aprinter );
+
+printer.println( "" );
+
+/* print bytes in a table of 8 columns
+   with default padding, no color
+   add separator lines
+*/
+    btable2.addBytes( sample );
+    btable2.printLines = true;
+    btable2.print( aprinter );
+
+printer.println( "" );
+
+/* print bytes in a table of 8 columns
+   with no padding, separator lines
+   header a the top
+   charcode printed at the end of the line
+   and custom colors for everything
+*/
+    btable3.addBytes( sample );
+    btable3.printLines = false;
+    btable3.printHexHead = false;
+    btable3.printCharCode = true;
+    btable3.padCharCode = true;
+    btable3.printAtEnd = true;
+    btable3.printHeader = true;
+    btable3.colorASCII = "「C! 」";
+    btable3.colorLines = "「K! 」";
+    btable3.colorHex   = "「W!」";
+    btable3.colorHexAlt = "「w」";
+    btable3.colorHexHead = "「c」"; 
+    btable3.colorHeader = "「B! 」";
+    btable3.print( aprinter );
+
+printer.println( "" );
+
+/* print bytes in a table of 4 columns
+   with padding of 2, no separator lines
+   and use a unified color
+*/
+    btable4.addBytes( sample );
+    btable4.printLines = false;
+    btable4.print( uprinter );
+
+printer.println( "" );
+
+/* print bytes in a table of 4 columns
+   with no padding , no separator lines
+   and couple of custom colors
+*/
+    btable5.addBytes( sample );
+    btable5.printLines = false;
+    btable5.colorHex   = "「W! 」";
+    btable5.colorHexAlt = "「K! 」";
+    btable5.print( uprinter );
+
+printer.println( "" );
+
+/* print bytes in a table of 4 columns
+   with no padding , no separator lines
+   and couple of custom colors
+*/
+    btable6.addBytes( sample );
+    btable6.printLines = false;
+    btable6.printCharCode = true;
+    btable6.colorASCII = "「C! 」";
+    btable6.colorHex   = "「W! 」";
+    btable6.colorHexAlt = "「K! 」";
+    btable6.print( uprinter );

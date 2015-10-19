@@ -1,0 +1,70 @@
+#!/usr/bin/as3shebang -- 
+
+import shell.*;
+
+var ansilib:* = Domain.currentDomain.load( "lib-abc/ansilib.abc" );
+trace( ansilib + " loaded" );
+
+var prettyprintlib:* = Domain.currentDomain.load( "prettyprintlib.abc" );
+trace( prettyprintlib + " loaded" );
+
+import libraries.prettyprint.*;
+
+trace( "" );
+
+/* Print some XML source in colors
+*/
+var source:String = FileSystem.read( "build.xml" );
+
+var code = new CodePrettyPrint();
+var str:String = code.prettyPrintOne( source, "", true );
+//trace( "str = " + str );
+
+// we want only the firsr 1024 chars
+var sample:String = str.substr(0, 1024) + "「K! 」\n...「K! 」";
+
+// first a trace printer
+var printer = new TracePrinter();
+
+// then an ANSI printer
+var aprinter = new AnsiPrinter( printer );
+    // we print the first sample
+    aprinter.println( sample );
+
+// another pinter to indent
+var printer2 = new IndentingPrinter( aprinter, 0, 4 );
+    // we indent 3x times
+	printer2.indent();
+	printer2.indent();
+	printer2.indent();
+
+// yet another printer to convert single lines into multilines
+var mprinter = new MultilinePrinter( printer2 );
+
+/* we first edit the colors map
+   then parse again the same source
+   to create sample 2
+*/
+CodePrettyPrint.map["str"] = "「g 」";
+CodePrettyPrint.map["atv"] = "「g 」";
+var str2:String = code.prettyPrintOne( source, "", true );
+var sample2:String = str2.substr(0, 1024) + "「K! 」\n...「K! 」";
+    // we print sample2
+	mprinter.println( sample2 );
+
+/* So what happen with sample2?
+
+   - source code is parsed and decorated with ansi colors notation
+     eg. "hello world" -> "hello world「w 」"
+   - print from the multiline printer
+     which basically split the source line by line
+   - print into the indenting printer
+     which is indented 3x times already
+   - print to the ANSI printer
+     which convert the ANSI notation to real ANSI code for the terminal
+   - print to the trace printer
+     which basically output everything to standard output
+
+   eg.
+   println( code ) -> multiline -> indenting -> ansi -> trace
+*/

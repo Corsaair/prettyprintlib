@@ -1,0 +1,40 @@
+#!/usr/bin/as3shebang -- 
+
+import shell.*;
+
+var ansilib:* = Domain.currentDomain.load( "lib-abc/ansilib.abc" );
+trace( ansilib + " loaded" );
+
+var prettyprintlib:* = Domain.currentDomain.load( "prettyprintlib.abc" );
+trace( prettyprintlib + " loaded" );
+
+import libraries.prettyprint.*;
+
+trace( "" );
+
+/* Print a simple 3x3 table
+   eg. 3 lines containing 3 rows
+*/
+var printer = new TracePrinter();
+
+var table = new TablePrinter( 3, 4 );
+    table.addRow( [ "a", "b", "c" ] );
+    table.addRow( [ "d", "e", "f" ] );
+    table.addRow( [ "g", "h", "i" ] );
+
+    table.print( printer );
+
+/* Print the same table
+   but with separators for the columns
+   and a top and bottom line
+*/
+var table2 = new TablePrinter( 3, 4 );
+var top = table2.addSpannedRow();
+    table2.addRow( [ "a", "b", "c" ], true, " ", "|" );
+    table2.addRow( [ "d", "e", "f" ], false, " ", "|"  );
+    table2.addRow( [ "g", "h", "i" ], true, " ", "|"  );
+var bottom = table2.addSpannedRow();
+    
+    top.println( "-------------------------" );
+    bottom.println( "-------------------------" );
+    table2.print( printer );

@@ -1,0 +1,36 @@
+#!/usr/bin/as3shebang -- 
+
+import shell.*;
+
+var ansilib:* = Domain.currentDomain.load( "lib-abc/ansilib.abc" );
+trace( ansilib + " loaded" );
+
+var prettyprintlib:* = Domain.currentDomain.load( "prettyprintlib.abc" );
+trace( prettyprintlib + " loaded" );
+
+import libraries.prettyprint.*;
+
+trace( "" );
+
+/* Print and indent/unindent
+*/
+var printer = new TracePrinter();
+var printer2 = new IndentingPrinter( printer, 0, 4 );
+
+printer2.indent();
+printer2.println( "hello" );
+printer2.indent();
+printer2.println( "the big" );
+printer2.indent();
+printer2.println( "world" );
+printer2.println( "monde" );
+printer2.unindent();
+printer2.println( "le grand" );
+printer2.unindent();
+printer2.println( "bonjour" );
+printer2.unindent();
+printer2.unindent(); // no effect
+printer2.unindent(); // no effect
+printer2.unindent(); // no effect
+printer2.println( "." );
+

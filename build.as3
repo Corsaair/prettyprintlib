@@ -1,0 +1,11 @@
+import redbean.*;
+import shell.FileSystem;
+
+compile( "src/prettyprintlib.as" );
+
+if( FileSystem.exists( "prettyprintlib.abc" ) )
+{
+	FileSystem.removeFile( "prettyprintlib.abc" );
+}
+
+FileSystem.move( "src/prettyprintlib.abc", "prettyprintlib.abc" );

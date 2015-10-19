@@ -1,0 +1,32 @@
+<overviews>
+	<all-packages>
+		<description><![CDATA[
+			The &lt;b&gt;Pretty Print&lt;/b&gt; library.&lt;br&gt;
+			&lt;br&gt;
+			
+			Prettyprint (or pretty-print) is the application of any of various stylistic
+			formatting conventions to text files, such as source code, markup, and similar
+			kinds of content.&lt;br&gt;
+			&lt;br&gt;
+			These formatting conventions can adjust positioning and spacing (indent style),
+			add color and contrast (syntax highlighting), adjust size, and make similar
+			modifications intended to make the content easier for people to view, read,
+			and understand.&lt;br&gt;
+			&lt;br&gt;
+			Prettyprinters for programming language source code are sometimes called
+			code beautifiers or syntax highlighters.&lt;br&gt;
+			&lt;br&gt;
+			&lt;a href="https://github.com/Corsaair/prettyprintlib/wiki" target="_blank"&gt;Wiki Documentation&lt;/a&gt;
+		]]></description>
+	</all-packages>
+	<packages>
+
+		<package name="libraries.prettyprint" >
+			<shortDescription><![CDATA[The prettyprint library.]]></shortDescription>
+			<description><![CDATA[
+				All interfaces, classes, etc. for pretty printing.
+			]]></description>
+		</package>
+		
+	</packages>
+</overviews>
